@@ -2447,8 +2447,8 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		//	xpad360w_poweroff_controller(xpad);
 	} else {
 		mutex_lock(&input->mutex);
-		if (input->users)
-			xpad_stop_input(xpad);
+		//if (input->users)
+			//xpad_stop_input(xpad);
 		mutex_unlock(&input->mutex);
 	}
 
