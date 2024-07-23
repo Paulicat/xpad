@@ -2435,7 +2435,7 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		 * they are notified when controller shows up
 		 * or goes away.
 		 */
-		xpad360w_stop_input(xpad);
+		//xpad360w_stop_input(xpad);
 
 		/*
 		 * The wireless adapter is going off now, so the
