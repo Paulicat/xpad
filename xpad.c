@@ -1900,8 +1900,8 @@ static int xpad_led_probe(struct usb_xpad *xpad)
 
 	led_cdev = &led->led_cdev;
 	led_cdev->name = led->name;
-	led_cdev->brightness_set = xpad_led_set;
-	led_cdev->flags = LED_CORE_SUSPENDRESUME;
+	//led_cdev->brightness_set = xpad_led_set;
+	//led_cdev->flags = LED_CORE_SUSPENDRESUME;
 
 	error = led_classdev_register(&xpad->udev->dev, led_cdev);
 	if (error)
@@ -2452,7 +2452,7 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		mutex_unlock(&input->mutex);
 	}
 
-	xpad_stop_output(xpad);
+	//xpad_stop_output(xpad);
 
 	return 0;
 }
