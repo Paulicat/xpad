@@ -2443,8 +2443,8 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		 * Unless explicitly disabled, power them down
 		 * so they don't just sit there flashing.
 		 */
-		if (auto_poweroff && xpad->pad_present)
-			xpad360w_poweroff_controller(xpad);
+		//if (auto_poweroff && xpad->pad_present)
+		//	xpad360w_poweroff_controller(xpad);
 	} else {
 		mutex_lock(&input->mutex);
 		if (input->users)
