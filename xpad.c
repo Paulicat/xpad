@@ -126,7 +126,7 @@ static bool sticks_to_null;
 module_param(sticks_to_null, bool, S_IRUGO);
 MODULE_PARM_DESC(sticks_to_null, "Do not map sticks at all for unknown pads");
 
-static bool auto_poweroff = false;
+static bool auto_poweroff = true;
 module_param(auto_poweroff, bool, S_IWUSR | S_IRUGO);
 MODULE_PARM_DESC(auto_poweroff, "Power off wireless controllers on suspend");
 
@@ -1900,7 +1900,7 @@ static int xpad_led_probe(struct usb_xpad *xpad)
 
 	led_cdev = &led->led_cdev;
 	led_cdev->name = led->name;
-	//led_cdev->brightness_set = xpad_led_set;
+	led_cdev->brightness_set = xpad_led_set;
 	//led_cdev->flags = LED_CORE_SUSPENDRESUME;
 
 	error = led_classdev_register(&xpad->udev->dev, led_cdev);
@@ -2358,7 +2358,7 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 		 * controllers and we'd need to maintain 2 identical lists
 		 * here in this driver and in usb core.
 		 */
-		//udev->quirks |= USB_QUIRK_RESET_RESUME;
+		udev->quirks |= USB_QUIRK_RESET_RESUME;
 	} else {
 		error = xpad_init_input(xpad);
 		if (error)
@@ -2435,7 +2435,7 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		 * they are notified when controller shows up
 		 * or goes away.
 		 */
-		//xpad360w_stop_input(xpad);
+		xpad360w_stop_input(xpad);
 
 		/*
 		 * The wireless adapter is going off now, so the
@@ -2443,16 +2443,16 @@ static int xpad_suspend(struct usb_interface *intf, pm_message_t message)
 		 * Unless explicitly disabled, power them down
 		 * so they don't just sit there flashing.
 		 */
-		//if (auto_poweroff && xpad->pad_present)
-		//	xpad360w_poweroff_controller(xpad);
+		if (auto_poweroff && xpad->pad_present)
+			xpad360w_poweroff_controller(xpad);
 	} else {
 		mutex_lock(&input->mutex);
-		//if (input->users)
-			//xpad_stop_input(xpad);
+		if (input->users)
+			xpad_stop_input(xpad);
 		mutex_unlock(&input->mutex);
 	}
 
-	//xpad_stop_output(xpad);
+	xpad_stop_output(xpad);
 
 	return 0;
 }
