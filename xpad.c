@@ -126,7 +126,7 @@ static bool sticks_to_null;
 module_param(sticks_to_null, bool, S_IRUGO);
 MODULE_PARM_DESC(sticks_to_null, "Do not map sticks at all for unknown pads");
 
-static bool auto_poweroff = true;
+static bool auto_poweroff = false;
 module_param(auto_poweroff, bool, S_IWUSR | S_IRUGO);
 MODULE_PARM_DESC(auto_poweroff, "Power off wireless controllers on suspend");
 
@@ -2358,7 +2358,7 @@ static int xpad_probe(struct usb_interface *intf, const struct usb_device_id *id
 		 * controllers and we'd need to maintain 2 identical lists
 		 * here in this driver and in usb core.
 		 */
-		udev->quirks |= USB_QUIRK_RESET_RESUME;
+		//udev->quirks |= USB_QUIRK_RESET_RESUME;
 	} else {
 		error = xpad_init_input(xpad);
 		if (error)
